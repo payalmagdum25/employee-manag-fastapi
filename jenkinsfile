@@ -27,11 +27,10 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarScanner'
 
-                  pysonar \
-                    --sonar-host-url=http://localhost:9000 \
-                    --sonar-token=sqp_596138612bf723d3211108f1c97a70ed7541e4b6 \
-                    --sonar-project-key=Employee-Manag-FastAPI
-                }
+              pysonar \
+                   --sonar-host-url=http://172.24.28.67:9090/\
+                   --sonar-token=sqp_836dc6446ff6b87d58dce08ad2f726cd8f8618b6 \
+                   --sonar-project-key=Employee-Manag-FastAPI
             }
 
         stage('Quality Gate') {
