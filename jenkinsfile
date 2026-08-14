@@ -32,7 +32,7 @@ pipeline {
                    --sonar-token=sqp_836dc6446ff6b87d58dce08ad2f726cd8f8618b6 \
                    --sonar-project-key=Employee-Manag-FastAPI
             }
-
+    }
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
