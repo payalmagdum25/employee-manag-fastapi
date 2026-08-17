@@ -1,25 +1,3 @@
-# from fastapi.testclient import TestClient
-# from main import app
-
-# client = TestClient(app)
-
-
-# def test_home():
-#     response = client.get("/")
-#     assert response.status_code == 200
-#     assert response.json()["message"] == "Employee Management System"
-
-
-# def test_about():
-#     response = client.get("/about")
-#     assert response.status_code == 200
-#     assert response.json()["message"] == "a fully functional api"
-
-
-# def test_view():
-#     response = client.get("/view")
-#     assert response.status_code == 200
-
 from fastapi.testclient import TestClient
 
 from main import app
