@@ -12,6 +12,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
+                bat 'python -m pip install --upgrade pip'
                 bat 'python -m pip install -r requirements.txt'
             }
         }
@@ -25,21 +26,39 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
+
                     def scannerHome = tool 'SonarScanner'
 
-              pysonar \
-                   --sonar-host-url=http://172.24.28.67:9090/\
-                   --sonar-token=sqp_836dc6446ff6b87d58dce08ad2f726cd8f8618b6 \
-                   --sonar-project-key=Employee-Manag-FastAPI
+                    withSonarQubeEnv('SonarQube') {
+
+                        bat """
+                            "${scannerHome}\\bin\\sonar-scanner.bat" ^
+                            -Dsonar.projectKey=Employee-Manag-FastAPI ^
+                            -Dsonar.projectName=Employee-Manag-FastAPI ^
+                            -Dsonar.sources=. ^
+                            -Dsonar.python.coverage.reportPaths=coverage.xml
+                        """
+                    }
+                }
             }
-    }
         }
+
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check the Console Output.'
         }
     }
 }
