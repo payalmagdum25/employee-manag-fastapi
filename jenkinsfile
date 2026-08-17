@@ -12,14 +12,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m pip install --upgrade pip'
-                bat 'python -m pip install -r requirements.txt'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest --cov=. --cov-report=xml'
+                sh 'python3 -m pytest --cov=. --cov-report=xml'
             }
         }
 
@@ -31,11 +30,11 @@ pipeline {
 
                     withSonarQubeEnv('SonarQube') {
 
-                        bat """
-                            "${scannerHome}\\bin\\sonar-scanner.bat" ^
-                            -Dsonar.projectKey=Employee-Manag-FastAPI ^
-                            -Dsonar.projectName=Employee-Manag-FastAPI ^
-                            -Dsonar.sources=. ^
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=Employee-Manag-FastAPI \
+                            -Dsonar.projectName=Employee-Manag-FastAPI \
+                            -Dsonar.sources=. \
                             -Dsonar.python.coverage.reportPaths=coverage.xml
                         """
                     }
