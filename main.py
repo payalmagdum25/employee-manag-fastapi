@@ -76,14 +76,14 @@
 #     }
 
 
-# #about 
+# #about
 # @app.get("/about")
 # def about():
 #     return {
 #         "message": "a fully functional api"
 #     }
 
-# #view 
+# #view
 # @app.get("/view")
 # def view():
 #     data = load_data()
@@ -110,7 +110,7 @@
 #         detail="Employee not found"
 #     )
 
-# #automate the id 
+# #automate the id
 # def get_next_id():
 
 #     conn = get_connection()
@@ -165,7 +165,7 @@
 #         "id": employee_id
 #     }
 
-# #update 
+# #update
 # @app.put("/update/{emp_id}")
 # def update_emp(
 #     emp_id: str,
@@ -181,7 +181,7 @@
 #             detail="Employee not found"
 #         )
 
-  
+
 #     allowed_fields = [
 #         "name",
 #         "age",
@@ -190,7 +190,7 @@
 #         "email"
 #     ]
 
-  
+
 #     for key in employee.keys():
 
 #         if key not in allowed_fields:
@@ -199,7 +199,7 @@
 #                 detail=f"Invalid field: {key}"
 #             )
 
-    
+
 #     if not employee:
 #         raise HTTPException(
 #             status_code=400,
@@ -244,7 +244,6 @@
 #     data = load_data()
 
 
-  
 #     if emp_id not in data:
 #         raise HTTPException(
 #             status_code=404,
@@ -270,13 +269,11 @@
 #     }
 
 
-from typing import Annotated
-
 import sqlite3
+from typing import Annotated
 
 from fastapi import FastAPI, HTTPException, Path
 from pydantic import BaseModel, EmailStr, Field
-
 
 app = FastAPI(
     title="Employee Management API",
@@ -335,7 +332,6 @@ class EmployeeUpdate(BaseModel):
         float | None,
         Field(None, ge=0),
     ]
-
     email: Annotated[
         EmailStr | None,
         Field(None),
@@ -374,9 +370,7 @@ def create_table():
         columns = [row["name"] for row in cursor.fetchall()]
 
         if "email" not in columns:
-            cursor.execute(
-                "ALTER TABLE employee ADD COLUMN email TEXT DEFAULT ''"
-            )
+            cursor.execute("ALTER TABLE employee ADD COLUMN email TEXT DEFAULT ''")
 
         connection.commit()
 
@@ -446,17 +440,13 @@ create_table()
 @app.get("/")
 def hello():
     """Return the API welcome message."""
-    return {
-        "message": "Employee Management System"
-    }
+    return {"message": "Employee Management System"}
 
 
 @app.get("/about")
 def about():
     """Return information about the API."""
-    return {
-        "message": "A fully functional Employee Management API"
-    }
+    return {"message": "A fully functional Employee Management API"}
 
 
 @app.get("/view")
@@ -471,7 +461,7 @@ def view_emp(
         ...,
         description="Employee ID",
         examples=["P001"],
-    )
+    ),
 ):
     """Return one employee by ID."""
     data = load_data()

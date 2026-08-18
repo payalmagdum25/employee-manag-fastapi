@@ -2,7 +2,6 @@ from fastapi.testclient import TestClient
 
 from main import app
 
-
 client = TestClient(app)
 
 
@@ -17,9 +16,7 @@ def test_about():
     response = client.get("/about")
 
     assert response.status_code == 200
-    assert response.json()["message"] == (
-        "A fully functional Employee Management API"
-    )
+    assert response.json()["message"] == ("A fully functional Employee Management API")
 
 
 def test_view():
@@ -72,9 +69,7 @@ def test_invalid_employee():
 
 
 def test_update_employee_not_found():
-    employee = {
-        "salary": 60000
-    }
+    employee = {"salary": 60000}
 
     response = client.put(
         "/update/P99999",
